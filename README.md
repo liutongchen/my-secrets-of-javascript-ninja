@@ -1,2 +1,3 @@
 # Secrets-of-Javascript-Ninja-Practice-
-Javascript practices while I'm reading the book "Secrets of Javascript Ninja"
+
+This folder contains some self-designed practices for deepening my understanding of the book "Secrets of Javascript Ninja".
