@@ -1,3 +1,4 @@
+//function invocation influences the context of the function
 function assert(a, b) {
   if (a === true) {
     console.log(b)
@@ -27,3 +28,17 @@ var ninja2 = {
 }
 
 assert(ninja2.getMyThis()===ninja2, "working on ninja2")
+
+
+//using constructor functions
+function ninja() {
+  this.skulk = function() {
+    return this
+  }
+}
+
+var ninja1 = new ninja();
+var ninja2 = new ninja();
+
+assert(ninja1.skulk() === ninja1, "ninja1 is skulking");
+assert(ninja2.skulk() === ninja2, "ninja2 is skulking");
