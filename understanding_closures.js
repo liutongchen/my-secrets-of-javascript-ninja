@@ -6,6 +6,7 @@ function assert(a, b) {
   }
 }
 
+//execution context & lexical environment
 function animateIt(elementID) {
   var ele = document.getElementById(elementID);
   var tick = 0;
@@ -21,3 +22,16 @@ function animateIt(elementID) {
     }
   }, 10);  
 }
+
+//the process of identifier registration
+assert(typeof num === "number", "number variable is registered");
+assert(typeof array === "object", "object variable is registered");
+assert(typeof expFun === "function", "function expression is registered");
+assert(typeof arrowFun === "function", "arrow function is registered");
+assert(typeof declarationFun === "function", "function declaration is registered")
+
+var num = 1;
+var array = [1, 2];
+var expFun = function() {};
+var arrowFun = (x) => x;
+function declarationFun() {};
