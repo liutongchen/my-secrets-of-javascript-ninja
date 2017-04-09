@@ -33,10 +33,12 @@ for (let meal of mealCooker()) {
 
 //2. iterate over a DOM tree with generator------------------------------------------------------------------------------------------
 
-//without generator: using recursive function to traverse DOM
 <html>
   <head>
     <script>
+      const subtree = document.getElementById("subTree");
+
+      //without generator: using recursive function to traverse DOM
       function traverseDom(element, callback) {
         callback(element);
         element = element.firstElementChild;
@@ -46,18 +48,23 @@ for (let meal of mealCooker()) {
         }
       }
 
-      const subtree = document.getElementById("subTree");
       traverseDom(subTree, function(element){
         assert(element !== null, element.nodeName)
       })
 
-      function assert(a, b) {
-        if (a) {
-          console.log(b);
-        } else {
-          console.log(wrong);
-        }
+    //with generator: using generator to traverse DOM
+    function* DomTraversal(element) {
+      yield element;
+      element = element.firstElementChild;
+      while(element) {
+        yield* DomTraversal(element);
+        element = element.nextElementSibling;
       }
+    }
+
+    for (let element of DomTraversal(subTree)) {
+      assert(element !== null, element.nodeName)
+    }
     </script>
   </head>
   <body>
@@ -70,5 +77,5 @@ for (let meal of mealCooker()) {
     </div>
     </html>
 
-//using generator to traverse DOM
+
 
