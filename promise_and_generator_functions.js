@@ -77,5 +77,13 @@ for (let meal of mealCooker()) {
     </div>
     </html>
 
+//3. learning the basic of promise-----------------------------------------------------------------------------------
+
+let promise1 = new Promise((resolve, reject) => {
+  undeclaredVariable++;
+})
+
+promise1.then(() => {console.log("This wouldn't happen")})
+.catch(err => console.log("error caught by 'catch'"))
 
 
