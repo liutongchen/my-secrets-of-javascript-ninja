@@ -31,6 +31,7 @@ for (let meal of mealCooker()) {
   assert(meal !== null, meal)
 }
 
+
 //2. iterate over a DOM tree with generator------------------------------------------------------------------------------------------
 
 <html>
@@ -85,5 +86,29 @@ let promise1 = new Promise((resolve, reject) => {
 
 promise1.then(() => {console.log("This wouldn't happen")})
 .catch(err => console.log("error caught by 'catch'"))
+
+//4. create a getJSON promise
+function getJSON(url) {
+  return new Promise(function(resolve, reject) {
+    const request = new XMLHttpRequest;
+    request.open("GET", url);
+    request.onload(function() {
+      try {
+        if (this.status === 200) {
+          resolve(JSON.parse(this.response));
+        } else {
+          reject(this.status + " " + this.statusText);
+        }
+      } catch(e) {
+        reject(e.message);
+      }
+    });
+    request.onerror = function() {reject(this.status + " " + this.statusText)};
+    request.send();
+  })
+}
+
+getJSON("http://www.npmjs.com/package/http-server").then(ninjas =>
+{assert(ninja !== null, "ninjas obtained")}).catch(e => fail("should't be here"))
 
 
