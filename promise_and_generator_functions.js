@@ -121,3 +121,30 @@ getJSON("data/plan.json")]).then(results=> {
 }).catch(e => fail("A problem occurs!"))
 
 
+//6. combining generator and promise (a rough sketch)
+async(function*() {
+  try {
+    const ninja = yield getJSON("data/ninjas.json");
+    const map = yield getJSON("data/mapInfo.json");
+    const plan = yield getJSON("data/plan.json");
+    //study the mission details
+  } catch {
+    //not able to get the mission details
+}
+
+function async(generator) {
+  const interator = generator();
+  
+  function handle(iteratorResult) {
+    if (interatorResult.done) {return;}
+    
+    const iteratorValue = iteratorResult.value;
+    if (iteratorValue instanceof Promise) {
+      iteratorValue.then(res => handle(iterator.next(res)).catch(e => iterator.throw(e));
+    };
+
+    try {
+      (handle(iterator.next()) 
+    } catch(e) {
+      iterator.throw(e)
+    }
