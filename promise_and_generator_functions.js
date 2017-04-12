@@ -63,7 +63,7 @@ for (let meal of mealCooker()) {
       }
     }
 
-    for (let element of DomTraversal(subTree)) {
+     for (let element of DomTraversal(subTree)) {
       assert(element !== null, element.nodeName)
     }
     </script>
@@ -110,5 +110,14 @@ function getJSON(url) {
 
 getJSON("http://www.npmjs.com/package/http-server").then(ninjas =>
 {assert(ninja !== null, "ninjas obtained")}).catch(e => fail("should't be here"))
+
+//5. using promise.all and promise.race
+
+Promise.all([getJSON("data/ninjas.json"),getJSON("data/mapInfo.json"),
+getJSON("data/plan.json")]).then(results=> {
+  const ninja = results[0], mapInfo = results[1], plan = results[2];
+  assert(ninja !== undefined && mapInfo !== undefined && plan !== undefined, 
+  "The plan is ready to be sent out in motion");
+}).catch(e => fail("A problem occurs!"))
 
 
