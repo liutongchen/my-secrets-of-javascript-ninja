@@ -140,7 +140,7 @@ function async(generator) {
     
     const iteratorValue = iteratorResult.value;
     if (iteratorValue instanceof Promise) {
-      iteratorValue.then(res => handle(iterator.next(res)).catch(e => iterator.throw(e));
+      iteratorValue.then(res => handle(iterator.next(res))).catch(e => iterator.throw(e));
     };
 
     try {
