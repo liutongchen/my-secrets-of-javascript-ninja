@@ -68,3 +68,58 @@ try {
 } catch(e) {
     console.log("Password should be an integer");
 }
+
+//3. creating proxies with "Proxy" constructor-------------------------------------------------------------
+const fruits = {name: "peach"};
+const representative = new Proxy(fruits, {
+    get: (target, key) => {
+        console.log("Reading " + key + " through a proxy.")
+        return key in target ? target[key] : "Don't bother this fruit!"
+    },
+    set: (target, key, value) => {
+        console.log("Setting " + key + " through a proxy");
+        target[key] = value;
+    }
+})
+
+assert(representative.name === "peach", "name property accessible through proxy");
+assert(representative.origin === "Don't bother this fruit!", "the origin of this fruit is unknown");
+representative.orgin = "Zhanjiang";
+assert(representative.origin === "Zhanjiang", "this fruit now knows where it comes from");
+
+//4. using proxies for logging---------------------------------------------------------------------------------
+function makeLoggable(target) {
+    return new Proxy(target, {
+        get: (target, key) => {
+            console.log("Reading " + key);
+            return key in garget? target[key] : target + " doesn't have " + key;
+        },
+        set: (target, key, value) => {
+            console.log("Setting " + key);
+            target[key] = value;
+        }
+    })
+}
+
+let ninja = { name: "Naruto" };
+ninja = makeLoggable(ninja);
+
+//5. Measuring performance with proxies
+function isPrime(number){
+    if(number < 2) { return false; }
+    for(let i = 2; i < number; i++) {
+        if(number % i === 0) { return false; }
+    }
+    return true;
+}
+
+isPrime = new Proxy(isPrime, {
+    apply: (target, thisArg, args) => {
+        console.time("isPrime");
+        const result = target.apply(thisArg, args);
+        console.timeEnd("isPrime");
+        return result;
+    }
+});
+
+isPrime(1299827);
