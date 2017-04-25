@@ -123,3 +123,5 @@ isPrime = new Proxy(isPrime, {
 });
 
 isPrime(1299827);
+
+//6. Autopopulating properties with proxies
