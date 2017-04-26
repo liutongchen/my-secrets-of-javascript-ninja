@@ -125,3 +125,53 @@ isPrime = new Proxy(isPrime, {
 isPrime(1299827);
 
 //6. Autopopulating properties with proxies
+function Folder() {
+  return new Proxy({}, {
+    get: (target, property) => {
+      console.log("Reading " + property);
+      if(!(property in target)) {
+        target[property] = new Folder();
+      }
+    return target[property];
+    }
+  });
+}
+
+const rootFolder = new Folder();
+
+try {
+  rootFolder.ninjasDir.firstNinjaDir.ninjaFile = "yoshi.txt";
+  console.log("An exception wasn’t raised");
+} catch(e){
+  console.log("An exception has occurred");
+}
+
+//7. using proxies to implement negative array indexes
+function proxiedIndex(array) {
+  if (!Array.isArray(array)) {
+    throw new TypeError("Please enter an array");
+  }
+  return new Proxy(array, {
+    get: (target, index) => {
+      index = +index;
+      return target[index < 0 ? target.length + index : index];
+    },
+    
+    set: (target, index, value) => {
+      index = +index;
+      return target[index < 0 ? target.length + index : index] = value;
+    }
+  })
+}
+
+let favoriteFood = ["chicken", "beef", "orange"];
+let proxiedFood = new proxiedIndex(favoriteFood);
+
+assert(proxiedFood[0] === "chicken" && proxiedFood[1] === "beef"
+&& proxiedFood[2] === "orange", "successfull access through proxy's positive index")
+
+assert(proxiedFood[-3] === "chicken" && proxiedFood[-2] === "beef"
+&& proxiedFood[-1] === "orange", "successful access through proxy's negative index")
+
+proxiedFood[-3] = "lamb"
+assert(proxiedFood[-3] === "lamb", "successful change with negative index")
