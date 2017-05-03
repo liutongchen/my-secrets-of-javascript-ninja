@@ -83,3 +83,13 @@ restaurant.add("udon");
 restaurant.add("udon");
 assert(restaurant.has("udon") && restaurant.length === 1, "this restaurant has one udon");
 
+//6.common operations on sets: unions, intersections and differences----------------------------------------------------------------
+let ninjaMission1 = new Set(["Naruto", "Sasuke", "Sakura"]);
+let ninjaMission2 = new Set(["Naruto", "Kakashi", "Hina"]);
+
+//combination
+let ninjaCombineMission = new Set([...ninjaMission1, ...ninjaMission2]);
+console.log(ninjaCombineMission)
+//intersection
+let ninjaIntersection = new Set([...ninjaMission1].filter(ninja => ninjaMission2.has(ninja)));
+assert(ninjaIntersection.has("Naruto"), "Naruto is in both missions");
