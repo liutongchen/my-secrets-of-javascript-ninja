@@ -53,3 +53,33 @@ assert(ninjaIslandMap.has(ninja2), "ninja2 is also on the island");
 assert(ninjaIslandMap.delete(ninja2), "ninja2 is gone");
 ninjaIslandMap.clear()
 assert(ninjaIslandMap.size === 0, "all ninjas are gone now")
+
+//5. mimicking sets with objects
+function Set() {
+  this.data = {};
+  this.length = 0;
+}
+
+Set.prototype.has = function(item) {
+  return (typeof this.data[item]) !== "undefined";
+}
+
+Set.prototype.add = function(item) {
+  if (!this.has(item)) {
+    this.data[item] = true;
+    this.length++;
+  }
+};
+
+Set.prototype.remove = function(item) {
+  if (this.has(item)) {
+    delete this.data[item];
+    this.length--;
+  }
+}
+
+let restaurant = new Set();
+restaurant.add("udon");
+restaurant.add("udon");
+assert(restaurant.has("udon") && restaurant.length === 1, "this restaurant has one udon");
+
