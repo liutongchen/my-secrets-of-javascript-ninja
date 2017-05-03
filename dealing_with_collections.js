@@ -93,3 +93,6 @@ console.log(ninjaCombineMission)
 //intersection
 let ninjaIntersection = new Set([...ninjaMission1].filter(ninja => ninjaMission2.has(ninja)));
 assert(ninjaIntersection.has("Naruto"), "Naruto is in both missions");
+//find difference
+let ninjaDifference = new Set([...ninjaMission1].filter(ninja => !ninjaMission2.has(ninja)))
+assert(ninjaDifference.size === 2, "there are two different ninjas")
