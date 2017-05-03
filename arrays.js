@@ -18,3 +18,17 @@ let someNinjasLikeFood = ninjas.some(ninja => ninja.food);
 assert(allNinjasAreNamed, "All ninjas are named");
 assert(!allNinjasLikeFood, "Not all ninjas like food");
 assert(someNinjasLikeFood, "But some ninjas like food");
+
+//3. reuse code to store metadata: simulating array-like methods---------------------------------------------------------------
+const elems = {
+  length: 0,
+  add: function(ele) {
+    Array.prototype.push.call(this, ele);
+  },
+  gather: function(id) {
+    this.add(document.getElementByID(id));
+  },
+  find: function(callback) {
+    Array.prototype.find.call(this, callback);
+  }
+}
