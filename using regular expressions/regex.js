@@ -27,3 +27,8 @@ while ((match = tag.exec(html)) !== null) {
     num++;
 }
 assert(num === 6, "total 6 matches: 3 opending tags and 3 closing tags");
+
+//3. grouping without capturing
+const groupingNoCapturingRule = /((?:bla-)+)something/;
+const groupingNoCapturingResult = "bla-bla-bla-something".match(groupingNoCapturingRule);
+assert(groupingNoCapturingResult.length === 2, "only one capture is returned");
