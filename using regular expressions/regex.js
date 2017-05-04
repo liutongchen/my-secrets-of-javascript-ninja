@@ -28,7 +28,27 @@ while ((match = tag.exec(html)) !== null) {
 }
 assert(num === 6, "total 6 matches: 3 opending tags and 3 closing tags");
 
-//3. grouping without capturing
+//3. grouping without capturing--------------------------------------------------------------------------------------
 const groupingNoCapturingRule = /((?:bla-)+)something/;
 const groupingNoCapturingResult = "bla-bla-bla-something".match(groupingNoCapturingRule);
 assert(groupingNoCapturingResult.length === 2, "only one capture is returned");
+
+//4. replacing with functions-----------------------------------------------------------------------------------------
+//task1: convert the dashed string into camel case
+function dashStToUpper(all, letter) { return letter.toUpperCase(); }
+assert("border-bottom-width".replace(/-(\w)/g, dashStToUpper) === "borderBottomWidth", "camel cased the dashed strings");
+
+//task2: turn "foo=1&foo=2&blah=a&blah=b&foo=3" to "foo=1,2,3&blah=a,b"
+function compress(source) {
+    const keys = {};
+    source.replace(/([^&=]+)=([^&]*)/g, function(full, key, value) {
+        keys[key] = (keys[key] ? keys[key] + ",": "") + value;
+        return ""
+    });
+    const result = [];
+    for (let key in keys) {
+        result.push(key + "=" + keys[key])
+    }
+    return result.join("&");
+}
+assert(compress("foo=1&foo=2&blah=a&blah=b&foo=3") === "foo=1,2,3&blah=a,b", "I did it!")
