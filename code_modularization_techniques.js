@@ -36,3 +36,15 @@ define("counterModule", ["jQuery"],
 )
 
 //3. using CommonJS to define a module
+
+//filename: clickCounter.js
+const $ = require("jQuery");
+let counter = 0;
+const clickHandler = () => { console.log(counter++); };
+module.exports = {
+  countClicks: () => {$(document).on("click", clickHandler)}
+}
+
+//to include this module in a different file, do the following:
+const clickCounter= require("clickCounter.js");
+clickCounter.countClicks();
