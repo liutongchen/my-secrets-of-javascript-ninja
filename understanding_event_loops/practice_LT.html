@@ -1,0 +1,69 @@
+<html>
+<head>
+    <body>
+        <form>
+            <input type="button" value="without timer event" id="noTimer">
+            <input type="button" value="use timer event" id="useTimer">
+            <input type="button" value="test button" id="testBtn">
+            <p id="responseTime" style="color:red"></p>
+
+        </form>
+        <table>
+            <tbody></tbody>
+        </table>
+
+        <script>
+            let start;
+            let end;
+            function createWithoutTimer() {
+                start = new Date().getTime();
+                const tbody = document.getElementsByTagName("tbody")[0];
+                for (let i = 0; i < 200000; i++) {
+                    const tr = document.createElement("tr");
+                    const td = document.createElement("td");
+                    td.appendChild(document.createTextNode("number: " + i));
+                    tr.appendChild(td);
+                    tbody.appendChild(tr);
+                }
+            }
+
+            function createWithTimer() {
+                start = new Date().getTime();
+                let totalRows = 200000;
+                let divident = 40;
+                let rowChunk = totalRows / divident;
+                let iteration = 0;
+                let tbody = document.getElementsByTagName("tbody")[0];
+                setTimeout(function generateRows() {
+                    const base = iteration * rowChunk;
+                    for (let i = 0; i < rowChunk; i++) {
+                        const tr = document.createElement("tr");
+                        for (let t = 0; t < 6; t++) {
+                            const td = document.createElement("td");
+                            td.appendChild(document.createTextNode("row# " + (base + i) + ", cell# " + t, ", iteration# " + iteration));
+                            tr.appendChild(td);
+                        }
+
+                        tbody.appendChild(tr);
+                    }
+                    iteration++;
+                    if (iteration < divident) {
+                        setTimeout(generateRows, 0)
+                    }
+                }, 0);
+            }
+
+            const testBtn = document.getElementById("testBtn");
+            testBtn.addEventListener("click", function () {
+                const responseTime = document.getElementById("responseTime");
+                let end = new Date().getTime();
+                responseTime.innerHTML = "Response period: " + (end - start);
+            })
+
+            document.getElementById("noTimer").addEventListener("click", createWithoutTimer);
+            document.getElementById("useTimer").addEventListener("click", createWithTimer);
+        </script>
+    </body>
+</head>
+
+</html>
