@@ -1,0 +1,46 @@
+<!--task: changing the color for each cells of a huge table from white to lightblue if it's clicked using event bubbling-->
+
+<html>
+
+<head>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        td {
+            width: 20px;
+            height: 20px;
+            border: 1px black solid;
+        }
+
+    </style>
+</head>
+
+<body>
+    <table>
+        <tbody></tbody>
+    </table>
+    <script>
+        "use strict";
+        //create cells
+        const table = document.getElementsByTagName("tbody")[0];
+        for (let i = 0; i < 10; i++) {
+            const tr = document.createElement("tr");
+            for (let t = 0; t < 20; t++){
+                const td = document.createElement("td");
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+        }
+
+        table.addEventListener("click", function(event){
+            if (event.target.tagName.toLowerCase() === "td") {
+                event.target.style.backgroundColor = "lightblue";
+            }
+        });
+
+    </script>
+</body>
+
+</html>

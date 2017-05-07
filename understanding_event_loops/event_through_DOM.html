@@ -1,0 +1,62 @@
+<!--This is to test how events are propogated through the DOM tree by looking at the following two things:
+1) event capturing and bubbling (looking at which is executed first, the document, outerContainer or innerContainer)
+2) what does this and .target refers to in an event handler function -->
+
+<html>
+
+<head>
+    <style>
+        #outerContainer {
+            width: 200px;
+            height: 200px;
+            background-color: darkcyan;
+        }
+        
+        #innerContainer {
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="outerContainer">
+        <div id="innerContainer"></div>
+    </div>
+
+    <script>
+        "use strict";
+        function assert(a, b) {
+            if (a) { console.log(b) }
+            else { console.log("Oops") };
+        }
+
+        function test() {
+            const outerContainer = document.getElementById("outerContainer");
+            const innerContainer = document.getElementById("innerContainer");
+
+            document.addEventListener("click", function(event) {
+                console.log("document handler");
+                assert(this === document, "'this' refers to the document");
+                assert(event.target === innerContainer, "event.target refers to the innerContainer");
+            }); //capturing
+
+            outerContainer.addEventListener("click", function(event) {
+                console.log("outerContainer handler");
+                assert(this === outerContainer, "'this' refers to the outerContainer");
+                assert(event.target === innerContainer, "event.target refers to the innerContainer")
+            }, true); //bubbling
+
+            innerContainer.addEventListener("click", function(event) {
+                console.log("innerContainer handler");
+                assert(this === innerContainer, "'this' refers to the innerContainer");
+                assert(event.target === innerContainer, "event.target refers to the innerContainer");
+            }, false) //capturing
+        }
+
+        window.onload = test;
+    </script>
+</body>
+
+</html>
